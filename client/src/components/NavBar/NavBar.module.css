@@ -1,0 +1,30 @@
+.navContainer {
+    display: flex;
+    margin-bottom: 25px;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    border-top: solid #39ff14 1px;
+    border-bottom: solid #39ff14 1px;
+    padding: 5px 0px;
+  }
+  
+  .select {
+    display:inline;
+    position: relative;
+    margin-left: 3px;
+    margin-right: 10px;
+    right: 53%;
+    top: 55%;
+    min-width: 50px;
+    height: 40px;
+    color: black;
+    padding: 5px 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    border: solid rgb(42, 14, 106) 2px;
+    background: rgba(255, 255, 255, 0.596);
+  }
