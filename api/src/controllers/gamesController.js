@@ -100,15 +100,12 @@ const searchName = async (name) => {
        }
      });
    } catch (error) {
-     res.status(500).json('Error fetching game data:', error);
+     res.status(500).send('Error fetching game data:', error);
    }
  
    return game.slice(0, 15);
  };
  
-//  searchName()
-//    .then((games) => console.log(games))
-//    .catch((error) => console.error(error));
 
 // FUNCIONA BIEN, NO TOCAR
 const searchID = async (id, source) => {
@@ -124,7 +121,7 @@ const searchID = async (id, source) => {
       return {
               id: game.data.id,
               name: game.data.name,
-              description: game.data.slug,
+              description: game.data.description_raw,
               image: game.data.background_image,
               released: game.data.released,
               genres: game.data.genres.map((gen) => {
@@ -137,25 +134,37 @@ const searchID = async (id, source) => {
          return game;
       }
          } catch (error) {
-            console.log(error);
             res.status(400).json('ID not found')
          }}
 
 // FUNCIONA BIEN, NO TOCAR!!! PARA CREAR POST
-
-const createGame = async (name, description, image, released, rating, platform) => {
-  const newGame = await Videogame.create({name, description, image, released, rating, platform})
- // await newGame.addVideogame(GenreId);
-  return newGame;
+const createGame = async (name, description, image, released, rating, platforms, genres) => {
+   console.log(genres);
+   try {
+   const platform = platforms.join(', '); 
+   const genre = genres.join(', ');  
+   const newGame = await Videogame.create({name, description, image, released, rating, platforms, genres})
+   const uniqueGenres = Array.from(new Set(genres)); // Elimina los elementos duplicados del array de géneros
+   console.log(uniqueGenres);
+  for (const g of uniqueGenres) {
+    let [genre, created] = await Genre.findOrCreate({
+      where: { name: g },
+    });
+    if (!created) {
+      // Si el género ya existe en la base de datos, se asocia directamente al nuevo videojuego
+      await newGame.addGenre(genre);
+    }
+  }
+return newGame;
+} catch (error) {
+   res.status(400).send('Could not create the game')
+}
 }
 
-         
 
-//getVideogamesDB().then((game) => console.log(game));
    module.exports = { getVideogamesApi, searchID, createGame, getVideogamesDB, searchName}; 
 
 
  
 
-  
    

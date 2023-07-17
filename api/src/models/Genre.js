@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
 
 module.exports = (sequelize) => {
-    sequelize.define("Genre", {
+    sequelize.define('Genre', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true, 
@@ -14,6 +14,6 @@ module.exports = (sequelize) => {
           },
         },
         {
-          timestamps: false
+          timestamps: false,
         });
     }
