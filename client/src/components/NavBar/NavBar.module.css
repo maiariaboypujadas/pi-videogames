@@ -1,12 +1,10 @@
 .navContainer {
-    display: flex;
-    margin-bottom: 25px;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 90%;
-    border-top: solid #39ff14 1px;
-    border-bottom: solid #39ff14 1px;
-    padding: 5px 0px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    width: 150px;
+    line-height: 30px;
+    margin-bottom: 30px;
   }
   
   .select {
@@ -27,4 +25,20 @@
     border-radius: 5px;
     border: solid rgb(42, 14, 106) 2px;
     background: rgba(255, 255, 255, 0.596);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 15px;
+    border: 1px solid black;
+  }
+  
+  .route {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    background-color: #efefef;
+    text-align: center;
   }

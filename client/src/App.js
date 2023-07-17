@@ -4,6 +4,8 @@ import './App.css';
 import NavBar from './components/NavBar/NavBar';
 import {Form, Home, LandingPage, Detail, About} from './views';
 import { Route } from 'react-router-dom';
+
+
 function App() {
 
 
@@ -11,7 +13,9 @@ function App() {
   return (
     <div className="App">
       <div className='image'>
-      <h1 className='Title'>WELCOME</h1>
+     
+      <h1 className='Title'>WELCOME!</h1>
+      <h2 className='Title'>Ready to find your videogame?</h2>
       {location.pathname !== "/" && <NavBar/> }
       <Route exact path="/" component={LandingPage}/> 
       <Route path="/home" component={Home}/>

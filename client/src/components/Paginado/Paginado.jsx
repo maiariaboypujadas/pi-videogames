@@ -1,51 +1,142 @@
-function Paginado({
-  currentPage,
-  setCurrentPage,
-  totalPages,
-  handlePageClick,
-}) {
-  const pageNumbers = [];
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import style from '../Paginado/Paginado.module.css';
+//import Loading from "../Loading/Loading";
+import Card from "../Card/Card";
+import { getVideogames } from "../../redux/actions";
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i + 1);
+
+const Pagination = () => {
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+      dispatch(getVideogames())
+  }, [dispatch])
+  
+  const videogames = useSelector( state => state.videogames)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedPage, setSelectedPage] = useState(1)
+  const [itemsPerPage] = useState(15)
+  const lastGame = currentPage * itemsPerPage;
+  const firtsGame = lastGame - itemsPerPage
+  const currentGames = videogames.slice(firtsGame,lastGame)
+  console.log(videogames)
+  
+  const generatePageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(videogames.length / itemsPerPage); i++) {
+    pageNumbers.push({number:i, selected: i === selectedPage});
   }
+  return pageNumbers;
+};
 
-  function handleClickPrevPage() {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }
+const handlePrevPage = () => {
+    setCurrentPage(currentPage - 1 );
+    setSelectedPage(selectedPage - 1);
+  };
+  
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1 );
+    setSelectedPage(selectedPage + 1);
+  };
+  
+  
+const pageNumbers = generatePageNumbers();
 
-  function handleClickNextPage() {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
+    return(
+        
+        <div className={style.Pagination}>
 
-  return (
-    <div>
-      <div>
-        <button onClick={handleClickPrevPage} disabled={currentPage === 1}>
-          &lt; Prev
-        </button>
-        {pageNumbers.map((number) => (
-          <button
-            key={number}
-            id={number}
-            onClick={handlePageClick}
-            className={currentPage === number ? 'active' : ''}
-          >
-            {number}
-          </button>
-        ))}
-        <button
-          onClick={handleClickNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next &gt;
-        </button>
-      </div>
-    </div>
-  );
+            {
+              videogames.length === 1
+              ? ''
+              : <div className={style.pageButtons}>
+              <button className={style.unselected} onClick={handlePrevPage} disabled={currentPage === 1}>
+                {"<"}
+              </button>
+              {pageNumbers.map((page) => (
+                
+                <button
+                key={page.number}
+                onClick={() => {
+                setCurrentPage(page.number);
+                setSelectedPage(page.number);
+                }}
+                className={`${style.pageButton} ${
+                page.selected ? style.selected : style.unselected
+                } ${page.number === selectedPage ? style.selected  :''}`}
+                >
+                {page.number}
+                </button>
+            ))}
+              <button
+                className={style.unselected}
+                onClick={handleNextPage}
+                disabled={lastGame >= videogames.length}
+              >
+                {">"}
+              </button>
+            </div>
+            }
+          {
+            videogames.length > 1 
+            ? <><h2 className={style.headerPagination}> Games: </h2></>
+            : ''
+          }
+            <div className={style.cardsContainer}>
+            
+            {currentGames ?
+                currentGames.map((game, index) => (
+                  <Card
+                    key={`${game.id}-${index}`} 
+                    id={game.id}
+                    image={game.image}
+                    name={game.name}
+                    genres={game.genres}
+                    release={game.release}
+                    rating={game.ratings}
+                  /> 
+               ))
+              : 
+              <div>Loading...</div>
+              //<Loading/>
+              }
+             
+           </div>
+           {
+            lastGame >= videogames.length
+            ? ''
+            :  <div className={style.pageButtons}>
+            <button className={style.unselected} onClick={handlePrevPage} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+            {pageNumbers.map((page) => (
+              
+              <button
+              key={page.number}
+              onClick={() => {
+              setCurrentPage(page.number);
+              setSelectedPage(page.number);
+              }}
+              className={`${style.pageButton} ${
+              page.selected ? style.selected : style.unselected
+              } ${page.number === selectedPage ? style.selected  :''}`}
+              >
+              {page.number}
+              </button>
+          ))}
+            <button
+              className={style.unselected}
+              onClick={handleNextPage}
+              disabled={lastGame >= videogames.length}
+            >
+              {">"}
+            </button>
+          </div>
+          }
+        
+        </div>
+    )
 }
-export default Paginado;
+export default Pagination;
+

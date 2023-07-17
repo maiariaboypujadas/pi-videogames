@@ -20,7 +20,6 @@ function NavBar () {
     function handleReset () {
         dispatch(resetVideogames());
         dispatch(getVideogames());
-
     }
     return (
         <div className="navContainer">
@@ -61,12 +60,14 @@ function NavBar () {
   <option  value="Descendente">Low Rating</option>
 </select>
 
-
 <button onClick={handleReset}>RESET</button>
-<div className="navContainer">
-            <Link to="/home">HOME</Link>
+<hr></hr>
+<div className="container">
+  
+            <Link className='route' to="/home">HOME</Link>
             <Link to="/create">FORM</Link>
             <Link to="/about">ABOUT</Link>
+
 
 </div>
         </div>

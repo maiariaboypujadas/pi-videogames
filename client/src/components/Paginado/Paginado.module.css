@@ -1,0 +1,129 @@
+/* Estilos para el contenedor principal */
+.Pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Estilos para los botones de paginación */
+  .pageButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .pageButton {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin: 0 8px;
+    cursor: pointer;
+  }
+  
+  .pageButton:hover {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .selected {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .unselected {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin: 0 8px;
+    cursor: pointer;
+  }
+  
+  .unselected:hover {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  
+  /* Estilos para el encabezado */
+  .headerPagination {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  /* Estilos para el contenedor de las tarjetas */
+  .cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Estilos para la tarjeta */
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    margin: 16px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+  }
+  
+  .card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .card p {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card li {
+    font-size: 14px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Estilos para el mensaje de carga */
+  .loadingMessage {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 32px;
+  }

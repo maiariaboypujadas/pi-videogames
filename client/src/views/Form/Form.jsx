@@ -3,7 +3,7 @@ import style from '../Form/Form.module.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getGenres, getVideogames, postVideogames } from "../../redux/actions";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 
 function validate(form) {
   let error = {};
@@ -43,6 +43,7 @@ function Form() {
   const history = useHistory();
   const genres = useSelector((state) => state.genres);
   const platforms = useSelector((state) => state.platforms);
+ // console.log(genres);
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -79,7 +80,7 @@ function Form() {
   function handleSelectGenres(e) {
     setForm({
       ...form,
-      genres: [...new Set([...form.genres, e.target.value])],
+      genres: [...new Set([...form.genres, e.target.value])], //si funciona devuelve todos
     });
     setError(
       validate({
@@ -88,7 +89,7 @@ function Form() {
       })
     );
   }
-    
+    //console.log(genres);
   function handleSelectPlatforms(e) {
     setForm({
       ...form,
@@ -135,7 +136,7 @@ function Form() {
       history.push("/home");
     }
   };
-    
+   // console.log(setForm);
   return (
     <div>
        <Link to="/home">
@@ -207,8 +208,8 @@ function Form() {
               Select one or more genres
             </option>
             {genres?.map((e, index) => (
-              <option key={index} value={e}>
-                {e.name}
+              <option key={index} value={e.name}>
+                {e}
               </option>
             ))}
           </select>

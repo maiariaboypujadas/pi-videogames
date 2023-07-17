@@ -92,6 +92,14 @@ export const getVideogames = () => {
           }
         }
       }
+    // export function postVideogames(payload) {
+    //     return async function (dispatch) {
+    //     const response = await axios.post("http://localhost:3001/videogames", payload);
+    //     dispatch ({
+    //         type: POST_VIDEOGAMES
+    //     })
+    //     return response;
+    // }}
         export const filterByGenres = (payload) => {
             return {
                 type: FILTER_BY_GENRES,

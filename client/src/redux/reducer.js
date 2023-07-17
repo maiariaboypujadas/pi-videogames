@@ -18,8 +18,8 @@ allVideogames: [], // copia de videojuegos
 detail: {},
 genres: [],
 filteredVideogames: [],
-platforms: []
-
+platforms: [],
+gameBD: []
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -59,22 +59,12 @@ export default function rootReducer(state = initialState, action) {
          genres: action.payload,
         }
         case FILTER_BY_GENRES:
-          const selectedGenre = action.payload;
-          if (selectedGenre === "") {
-            return {
-              ...state,
-              filteredVideogames: state.videogames,
-            };
-          } else {
-            const filteredVideogames = state.videogames.filter((game) =>
-            game.genres.includes(selectedGenre)
-            );
-      
-              return {
-                  ...state,
-                  filteredVideogames: filteredVideogames,
-                };
-          }
+  const allGenres = state.videogames;
+  const genresFiltered = action.payload === "All Videogames" ? allGenres : allGenres.filter(el => el.genres && el.genres.includes(action.payload))
+  return {
+    ...state,
+    videogames: genresFiltered,
+  };
       case ORDER_BY_NAME:
       let ordenados;
 
@@ -101,7 +91,7 @@ export default function rootReducer(state = initialState, action) {
      case POST_VIDEOGAMES:
         return { 
           ...state,
-          videogames: [...state.videogames, action.payload]
+          videogames: action.payload
         }
      case RESET:
       return {
@@ -114,7 +104,6 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogames: action.payload === "All Videogames" ? state.allVideogames : originFilter
-
       }
       default:
     return {...state}
