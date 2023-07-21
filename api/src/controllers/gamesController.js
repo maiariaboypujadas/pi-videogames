@@ -10,7 +10,6 @@ const { Op } = require('sequelize');
 
 // ------- GET | /videogames-----------
 const getVideogamesApi = async (req, res) => {
-
    try {
       let games = [];
       for (let i=0; i < 5; i++){ // traigo 100 juegos
@@ -87,7 +86,6 @@ const searchName = async (name) => {
       attributes: ["name"],
       through: { attributes: [] },
     },
-    // attributes: { exclude: ["createdAt", "updatedAt"] },
   });
 
   if (dbGames.length === 0) {
