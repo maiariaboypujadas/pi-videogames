@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import style from '../Paginado/Paginado.module.css';
-//import Loading from "../Loading/Loading";
 import Card from "../Card/Card";
 import { getVideogames, orderByName, orderByRating, filterByGenres, resetVideogames, filterGameByOrigin } from "../../redux/actions";
 
@@ -19,13 +18,13 @@ const Pagination = () => {
   const [itemsPerPage] = useState(15)
   const lastGame = currentPage * itemsPerPage; 
   const firtsGame = lastGame - itemsPerPage
-  const currentGames = videogames.slice(firtsGame,lastGame)
+  const currentGames = videogames.slice(firtsGame,lastGame) 
   //console.log(videogames)
   
   const generatePageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(videogames.length / itemsPerPage); i++) {
-    pageNumbers.push({number:i, selected: i === selectedPage});
+    pageNumbers.push({number:i, selected: i === selectedPage}); //pagina donde estoy
   }
   return pageNumbers;
 };
@@ -40,26 +39,38 @@ const handlePrevPage = () => {
     setSelectedPage(selectedPage + 1);
   };
 const pageNumbers = generatePageNumbers();
-//---------------------
+//--------------------- 
 function handleSortName (event) {
   event.preventDefault();
   dispatch(orderByName(event.target.value))
+  setCurrentPage(1)
+  setSelectedPage(1)
 }
 function handleSortRating (event) {
   event.preventDefault();
   dispatch(orderByRating(event.target.value))
+  setCurrentPage(1)
+  setSelectedPage(1)
 }
 function handleFilter(e) {
   dispatch(filterByGenres(e.target.value))
+  setCurrentPage(1)
+  setSelectedPage(1)
+
 }
 
 
 function handleFilterByOrigin (event) {
   dispatch(filterGameByOrigin(event.target.value))
+  setCurrentPage(1)
+  setSelectedPage(1)
+
 }
 function handleReset () {
     dispatch(resetVideogames());
     dispatch(getVideogames());
+    setCurrentPage(1)
+    setSelectedPage(1)
 }
 
     return(

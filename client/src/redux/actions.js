@@ -40,12 +40,12 @@ export const getVideogames = () => {
         return async (dispatch) => {
     try {
             const response = await axios.get("http://localhost:3001/genres")
-        console.log(response);
+        //console.log(response);
             return dispatch ({
                 type: GET_GENRES,
                 payload: response.data,
             })
-        }
+    }
          catch (error) {
         console.log(error);
      } }};

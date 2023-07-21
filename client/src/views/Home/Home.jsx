@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getGenres, getVideogames } from '../../redux/actions';
-//import Cards from '../../components/Cards/Cards';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Pagination from '../../components/Paginado/Paginado';
 
 
 function Home() {
   const dispatch = useDispatch();
-  //const videogames = useSelector((state) => state.videogames);
-
   useEffect(() => {
     dispatch(getVideogames());
     dispatch(getGenres())

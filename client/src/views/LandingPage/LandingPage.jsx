@@ -4,7 +4,7 @@ import style from '../LandingPage/LandingPage.module.css';
 
 function LandingPage () {
     return (
-            <div>
+      <div>
 <Link to="/home">
     <button className={style.button}>PLAY</button>
 </Link>

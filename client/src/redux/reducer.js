@@ -38,7 +38,7 @@ export default function rootReducer(state = initialState, action) {
             ...state, 
             videogames: action.payload,
             allVideogames: action.payload,
-        platforms
+            platforms
         }
      case GET_VIDEOGAMES_DETAIL:
       //console.log(action.payload);

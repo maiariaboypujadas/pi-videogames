@@ -1,67 +1,78 @@
-.App {
-text-align: center;
-font-family: 'Montserrat', sans-serif;
-font-size: 25px;
-color: #111;
-flex-wrap: wrap;
-text-shadow: 
-  0 0 10px violet,
-  0 0 20px violet,
-  0 0 30px violet,
-  0 0 40px violet,
-  0 0 70px violet,
-  0 0 80px violet,
-  0 0 100px violet,
-  0 0 150px violet,
-  0 0 200px #111,
-  0 0 250px #111,
-  0 0 300px #111,
-  0 0 350px #111;
-
-
-}
 body {
   background-image: url(https://c.wallhere.com/photos/9a/4c/Star_Wars_Jedi_fallen_order_video_games-1607893.jpg!d);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-}
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding-top: 20%;
+ 
 }
+.container {
+  background-color: transparent; /* fondo transparente */
+  padding: 0px; /* agregar un poco de espacio alrededor del contenido */
 
-.App-link {
-  color: #61dafb;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.App {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  color: #111;
+  flex-wrap: wrap;
+  text-shadow: 
+    0 0 10px violet,
+    0 0 20px violet,
+    0 0 30px violet,
+    0 0 40px violet,
+    0 0 70px violet,
+    0 0 80px violet,
+    0 0 100px violet,
+    0 0 150px violet,
+    0 0 200px #111,
+    0 0 250px #111,
+    0 0 300px #111,
+    0 0 350px #111;
+  
+  
   }
-  to {
-    transform: rotate(360deg);
+ 
+  /* html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  } */
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
   }
-}
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

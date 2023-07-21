@@ -1,3 +1,6 @@
+
+
+
 button {
     --glow-color: rgb(217, 176, 255);
     --glow-spread-color: rgba(191, 123, 255, 0.781);
@@ -19,6 +22,7 @@ button {
     transition: all 0.3s;
     border-radius: 15px;
     justify-content: space-around;
+
 
    }
    

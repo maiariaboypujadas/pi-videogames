@@ -1,7 +1,7 @@
 import { useDispatch} from "react-redux";
 import { useState } from "react";
 import { getVideogamesByName} from "../../redux/actions";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 import {resetVideogames, getVideogames} from "../../redux/actions";
 
 export default function SearchBar() {
