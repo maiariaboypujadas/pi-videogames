@@ -3,12 +3,12 @@ const axios = require ('axios');
 require ("dotenv").config();
 //const {API_KEY} = process.env;
 const { Videogame, Genre } = require('../db'); // Importa los modelos de la base de datos
+const { Op } = require('sequelize');
 
 
 
 
 // ------- GET | /videogames-----------
-// ALTERNATIVA 1 SI FUNCIONA
 const getVideogamesApi = async (req, res) => {
 
    try {
@@ -33,49 +33,21 @@ return games;
  } catch (error) {
      res.status(500).send('Videojuego not found', error);
  }}
-//  getVideogamesApi('Limbo')
-//  .then((games) => console.log(games))
-//  .catch((error) => console.error(error));
-// FIJARME DE CREAR BIEN LOS JUEGOS
+
 const getVideogamesDB = async () => {
    try {
-      const infoDB = await Videogame.findAll();
+      const infoDB = await Videogame.findAll({
+        include: {
+          model: Genre,
+          attributes: ["name"],
+          through: {attributes: []}
+        }
+      });
       return infoDB; 
    } catch (error) {
       res.status(500).send('Error DataBase', error);
    }}
-// NO FUNCIONA AUN, DEVUELVE TODOS LOS JUEGOS.
-// const searchName = async (name) => {
-//    let games = [];
-//    const api =  await axios.get(`https://api.rawg.io/api/games?search=${name}&key=7ec4d410b20b453189a41dce23b83c6b`);
-//    const results = api.data.results.map((game) => {
-//      return {
-//        id: game.id,
-//        name: game.name,
-//        description: game.description_raw,
-//        image: game.background_image,
-//        released: game.released,
-//        rating: game.rating,
-//        platforms: game.platforms.map((platform) => platform.platform.name),
-//        genres: game.genres.map((genre) => genre.name),
-//      };
-//    })
-//  games.push(...results);
-//    try {
- 
-//       const fromApi = await results();
-//       const fromDB = await getVideogamesDB();
-//       const resultAPIyDB = [...fromApi, ...fromDB];
-//       const filterName = name ? resultAPIyDB.filter((game) => game.name.toLowerCase().includes(name.toLowerCase())) : resultAPIyDB;
-//       if (filterName.length === 0) {
-//         throw new Error('No se encontraron resultados');
-//       }
-//       return filterName.slice(0, 15);
-//     } catch (error) {
-//       throw new Error('Error al buscar videojuegos por nombre: ' + error.message);
-//     }
-// };
-   
+
 const searchName = async (name) => {
    let game = [];
    try {
@@ -97,17 +69,55 @@ const searchName = async (name) => {
        {
           game.push(gameObj);
 
-       }
+       } 
      });
    } catch (error) {
-     res.status(500).send('Error fetching game data:', error);
+     res.status(500).send('Videogame not found:', error);
    }
  
    return game.slice(0, 15);
  };
- 
+ // --------- BUSCAR POR NOMBRE BASE DE DATOS ----------------
+ const searchNameDB = async (name) => {
+  let game = [];
+  let dbGames = await Videogame.findAll({
+    where: { name: { [Op.iLike]: `%${name}%` } },
+    include: {
+      model: Genre,
+      attributes: ["name"],
+      through: { attributes: [] },
+    },
+    // attributes: { exclude: ["createdAt", "updatedAt"] },
+  });
 
-// FUNCIONA BIEN, NO TOCAR
+  if (dbGames.length === 0) {
+    dbGames = [];
+  }
+
+  dbGames.forEach((games) => {
+    const gameSearch = {
+      id: games.id,
+      name: games.name,
+      description: games.description,
+      image: games.image,
+      released: games.released,
+      rating: games.rating,
+      platforms: games.platforms.map((platform) => platform.name),
+      genres: games.genres.map((genre) => genre.name),
+    };
+    if (gameSearch.name.toLowerCase().includes(name.toLowerCase())) {
+      game.push(gameSearch);
+    }
+  });
+
+  if (dbGames.length === 0) {
+    game = await searchName(name);
+  }
+
+  return game.slice(0, 15);
+}
+
+// -----------------BUSCAR POR ID --------------------------------
 const searchID = async (id, source) => {
    try {
    const game = 
@@ -130,41 +140,29 @@ const searchID = async (id, source) => {
               rating: game.data.rating,
               platforms: game.data.platforms.map((el) => el.platform.name),
             };
-      } else {
+      } else if (game){
          return game;
+      } else {
+        throw new Error('ID not found');
       }
          } catch (error) {
-            res.status(400).json('ID not found')
+          throw new Error('Could not search for the game');
          }}
 
-// FUNCIONA BIEN, NO TOCAR!!! PARA CREAR POST
+// ------------ PARA CREAR POST -----------------
 const createGame = async (name, description, image, released, rating, platforms, genres) => {
-   console.log(genres);
-   try {
-   const platform = platforms.join(', '); 
-   const genre = genres.join(', ');  
-   const newGame = await Videogame.create({name, description, image, released, rating, platforms, genres})
-   const uniqueGenres = Array.from(new Set(genres)); // Elimina los elementos duplicados del array de géneros
-   console.log(uniqueGenres);
-  for (const g of uniqueGenres) {
-    let [genre, created] = await Genre.findOrCreate({
-      where: { name: g },
-    });
-    if (!created) {
-      // Si el género ya existe en la base de datos, se asocia directamente al nuevo videojuego
-      await newGame.addGenre(genre);
-    }
+  console.log(genres);
+  try {
+      const newGame = await Videogame.create({name, description, image, released, rating, platforms, genres});
+    
+      return newGame;
+  } catch (error) {
+      throw new Error('Could not create the game');
   }
-return newGame;
-} catch (error) {
-   res.status(400).send('Could not create the game')
-}
-}
+};
 
 
-   module.exports = { getVideogamesApi, searchID, createGame, getVideogamesDB, searchName}; 
+   module.exports = { getVideogamesApi, searchID, createGame, getVideogamesDB, searchNameDB}; 
 
 
  
-
-   
