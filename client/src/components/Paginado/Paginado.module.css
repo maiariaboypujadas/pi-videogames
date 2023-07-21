@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
+    flex-direction: row;
   }
   
   .pageButton {
@@ -32,7 +33,7 @@
   
   .selected {
     background-color: #333;
-    color: #fff;
+    color: lightpink;
   }
   
   .unselected {
@@ -127,3 +128,5 @@
     font-weight: bold;
     margin-top: 32px;
   }
+
+ 

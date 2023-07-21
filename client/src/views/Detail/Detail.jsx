@@ -2,10 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanDetail, getVideogamesDetail } from "../../redux/actions";
 import { Link } from "react-router-dom";
-//import {videogamesDetail} from '../../redux/reducer'
-import styles from "../Detail/Detail.module.css";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-//import {videogamesDetail} from '../../redux/reducer';
+import { useParams } from "react-router-dom";
+//import styles from '../Detail/Detail.module.css';
 function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -15,47 +13,41 @@ function Detail() {
     dispatch(getVideogamesDetail(id));
   }, [dispatch, id]);
   const videogames = useSelector((state) => state?.detail);
+  
   return (
-    <div>
-      <div className={styles.container}>
-        <div className={styles.img} key={videogames?.id}>
-        <img 
-        src={videogames.image}
-         alt="img"
-          />
-      </div>
-      
-      <div className={styles.row}>
-        <h3>Name: {videogames?.name}</h3>
-        <div className={styles.gamedescription}>
+    <div className="detail-container">
+      <div className="img-container">
+          {/* <h3>ID: {videogames?.id}</h3> */}
+          <h3>Name: {videogames?.name}</h3>
+        <img src={videogames.image} alt="img" />
+          </div>
+          <div className="details">
+        <div>
           <h3>Description: {videogames?.description}</h3>
         </div>
-        <div className={styles.header}>
+        <div>
           <h3>Released: {videogames?.released} </h3>
         </div>
-        <div className={styles.header}>
+        <div>
           <h3>Rating:{videogames?.rating} </h3>
-      
         </div>
-        <div className={styles.header}>
-          <h3>Platforms:{" "}
-          {videogames.platforms}
-          </h3>
+          <div>
+          <h3>Platforms:{" "}{videogames.platforms} </h3>
         </div>
-        <div className={styles.header}>
+        <div>
         <h3>
               Genres:{" "}
-              {videogames.genres?.map((g) => (<p key={g.name}>{g.name}</p>
+              {videogames.genres?.map((genre) => (
+                <p key={genre.id}>{genre.name}</p>
                 ))}
             </h3>
-        </div>
-        </div>
-
+    </div>
         <Link to="/home">
           <button>Go Back</button>
         </Link>
       </div>
     </div>
+
   );
 }
   

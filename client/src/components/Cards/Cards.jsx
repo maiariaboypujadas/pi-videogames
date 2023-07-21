@@ -5,7 +5,6 @@ import style from '../Cards/Cards.module.css'
 function Cards() {
     const videogamesDetail = useSelector(state => state.videogames)
   
-
     return (
       <div className={style.styleCard}>
         {videogamesDetail.map((game, index) => (

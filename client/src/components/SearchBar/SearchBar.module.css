@@ -1,32 +1,6 @@
-.search-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-container input[type="text"] {
-    padding: 8px;
-    border: none;
-    border-radius: 5px 0 0 5px;
-    width: 70%;
-    font-size: 16px;
-  }
-  
-  .search-container button[type="submit"] {
-    padding: 8px;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  /* Estilos adicionales para cuando el usuario interactúa con el botón */
-  .search-container button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  .search-container button[type="submit"]:active {
-    background-color: #3e8e41;
-    transform: translateY(1px);
+#buscador {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }

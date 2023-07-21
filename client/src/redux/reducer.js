@@ -18,24 +18,30 @@ allVideogames: [], // copia de videojuegos
 detail: {},
 genres: [],
 filteredVideogames: [],
-platforms: [],
-gameBD: []
+platforms: []
 };
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_VIDEOGAMES:
-     // console.log(action.payload);
-     let platforms = [];
-     action.payload.map((e)=>(platforms = [...platforms, ...e.platforms]));
+      const videogames = action.payload;
+      const platforms = videogames.reduce((index, arr) => {
+        arr.platforms.forEach(platform => {
+          if (!index.includes(platform)) {
+            index.push(platform);
+          }
+        });
+        return index;
+      }, []);
+
         return {
             ...state, 
             videogames: action.payload,
             allVideogames: action.payload,
-        platforms: Array.from(new Set(platforms))
+        platforms
         }
      case GET_VIDEOGAMES_DETAIL:
-      console.log(action.payload);
+      //console.log(action.payload);
       return {
         ...state,
         detail: action.payload
@@ -53,18 +59,23 @@ export default function rootReducer(state = initialState, action) {
           videogames: action.payload
         } 
         case GET_GENRES: 
-        console.log(action.payload);
+        //console.log(action.payload);
         return {
           ...state,
          genres: action.payload,
         }
         case FILTER_BY_GENRES:
-  const allGenres = state.videogames;
-  const genresFiltered = action.payload === "All Videogames" ? allGenres : allGenres.filter(el => el.genres && el.genres.includes(action.payload))
-  return {
-    ...state,
-    videogames: genresFiltered,
-  };
+    
+          return {
+            ...state,
+            videogames: state.videogames.filter((game) => {
+              if (game.genres) {
+                return game.genres.some((genre) => genre === action.payload);
+              } else return state.allVideogames
+            }),
+            error: null,
+          };
+    
       case ORDER_BY_NAME:
       let ordenados;
 
@@ -91,7 +102,6 @@ export default function rootReducer(state = initialState, action) {
      case POST_VIDEOGAMES:
         return { 
           ...state,
-          videogames: action.payload
         }
      case RESET:
       return {
@@ -107,5 +117,4 @@ export default function rootReducer(state = initialState, action) {
       }
       default:
     return {...state}
-
   }}

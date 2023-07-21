@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getVideogames } from '../../redux/actions';
+import { getGenres, getVideogames } from '../../redux/actions';
 //import Cards from '../../components/Cards/Cards';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Pagination from '../../components/Paginado/Paginado';
@@ -12,20 +12,20 @@ function Home() {
 
   useEffect(() => {
     dispatch(getVideogames());
+    dispatch(getGenres())
   }, [dispatch]);
 //----------------
  
   return (
-    <>
-      <h1>List of Videogames</h1>
-      <SearchBar />
-      <Pagination>
+    <div className='App'>
 
+      <SearchBar />
+      <h1>List of Videogames</h1>
+      <Pagination>
+        
       </Pagination>
-    {/* {<Cards videgames={videogames} /> } */}
-  
-      <hr></hr>
-    </>
+      </div>
+
   );
 }
 

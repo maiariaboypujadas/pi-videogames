@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import style from '../Form/Form.module.css';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getGenres, getVideogames, postVideogames } from "../../redux/actions";
 import { Link } from "react-router-dom";
@@ -11,6 +10,11 @@ function validate(form) {
     error.name = 'Enter a correct name';
   } else if (form.name.length > 30) {
     error.name = 'Name must be 30 characters or less';
+  } else {
+    const regex1 = /^[a-zA-Z0-9]+$/;
+    if(!regex1.test(form.name.trim())) {
+      error.name = 'Use only numbers and letters'
+    }
   }
   if (!form.description.trim()) {
     error.description = 'Enter a correct description';
@@ -40,10 +44,9 @@ function validate(form) {
 
 function Form() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const genres = useSelector((state) => state.genres);
   const platforms = useSelector((state) => state.platforms);
- // console.log(genres);
+  
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -78,9 +81,10 @@ function Form() {
   };
 
   function handleSelectGenres(e) {
+    if(!form.genres.includes(e.target.value)){
     setForm({
       ...form,
-      genres: [...new Set([...form.genres, e.target.value])], //si funciona devuelve todos
+      genres: [...form.genres, e.target.value], //si funciona devuelve todos
     });
     setError(
       validate({
@@ -88,12 +92,13 @@ function Form() {
         [e.target.name]: e.target.value,
       })
     );
-  }
+  }}
     //console.log(genres);
   function handleSelectPlatforms(e) {
+    if(!form.platforms.includes(e.target.value)){
     setForm({
       ...form,
-      platforms: [...new Set([...form.platforms, e.target.value])],
+      platforms: [...form.platforms, e.target.value],
     });
     setError(
       validate({
@@ -101,7 +106,7 @@ function Form() {
         [e.target.name]: e.target.value,
       })
     );
-  }
+  }}
 
   function handleRemoveGenre(index) {
     const newGenres = [...form.genres];
@@ -117,38 +122,43 @@ function Form() {
     setError(validate({ ...form, platforms: newPlatforms }));
   }
 
-  const submitHandler = (event) => {
+  function submitHandler(event) {
     event.preventDefault();
-    const error = validate(form);
-    setError(error);
-    if (Object.keys(error).length === 0) {
+    const errors = validate(form);
+    if (Object.keys(errors).length > 0) {
+      setError(errors);
+      alert("Could not create the game")
+    } else {
+      // Si no hay errores, enviar el formulario y crear el videojuego
       dispatch(postVideogames(form));
-      alert("A new VideoGame has been created");
+      alert("The game was created successfully");
       setForm({
         name: "",
-        image: "",
         description: "",
         released: "",
         rating: "",
-        genres: [],
+        image: "",
         platforms: [],
-      });
-      history.push("/home");
+        genres: [], 
+      })
     }
-  };
-   // console.log(setForm);
+  }
+  
   return (
-    <div>
+    <div className={style.formContainer}>
        <Link to="/home">
           <button>Go Back</button>
         </Link>
-      <div>
+      
+
+      <div className={style.formTitle}>
         <h1>CREATE YOUR VIDEOGAME</h1>
       </div>
       <form onSubmit={submitHandler}>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Name: </label>
           <input
+            id="name"
             type="text"
             value={form.name}
             onChange={changeHandler}
@@ -157,9 +167,10 @@ function Form() {
           />
           {error.name && <span>{error.name}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Description: </label>
-          <textarea
+          <input
+          id="description"
             type="text"
             value={form.description}
             onChange={changeHandler}
@@ -168,9 +179,10 @@ function Form() {
           />
           {error.description && <span>{error.description}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Release Date: </label>
           <input
+          id="released"
             type="text"
             value={form.released}
             onChange={changeHandler}
@@ -179,9 +191,10 @@ function Form() {
           />
           {error.released && <span>{error.released}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Rating: </label>
           <input
+          id="rating"
             type="number"
             value={form.rating}
             onChange={changeHandler}
@@ -190,9 +203,10 @@ function Form() {
           />
           {error.rating && <span>{error.rating}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Image URL: </label>
           <input
+          id="image"
             type="text"
             value={form.image}
             onChange={changeHandler}
@@ -201,23 +215,23 @@ function Form() {
           />
           {error.image && <span>{error.image}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Genres: </label>
-          <select onChange={handleSelectGenres} name="genres">
+          <select onChange={handleSelectGenres} name="genres" id="genres">
             <option value="" disabled>
               Select one or more genres
             </option>
-            {genres?.map((e, index) => (
-              <option key={index} value={e.name}>
-                {e}
+            {genres?.map((genre) => (
+              <option key={genre.id} value={genre.name}>
+                {genre.name}
               </option>
             ))}
           </select>
           <ul>
-            {form.genres.map((e, index) => (
-              <li key={index}>
-                <div>{e}</div>
-                <button id="pag" value={e} onClick={() => handleRemoveGenre(index)}>
+            {form.genres.map((genre) => (
+              <li key={genre}>
+                <div>{genre}</div>
+                <button value={genre} onClick={() => handleRemoveGenre(genre)}>
                   x
                 </button>
               </li>
@@ -225,7 +239,7 @@ function Form() {
           </ul>
           {error.genres && <span>{error.genres}</span>}
         </div>
-        <div className={style.form}>
+        <div className={style.credentials}>
           <label>Platforms: </label>
           <select onChange={handleSelectPlatforms} name="platforms">
             <option value="" disabled>
@@ -241,7 +255,7 @@ function Form() {
             {form.platforms.map((e, index) => (
               <li key={index}>
                 <div>{e + ""}</div>
-                <button id="pag" value={e} onClick={() => handleRemovePlatform(index)}>
+                <button  value={e} onClick={() => handleRemovePlatform(index)}>
                   x
                 </button>
               </li>
@@ -249,9 +263,7 @@ function Form() {
           </ul>
           {error.platforms && <span>{error.platforms}</span>}
         </div>
-        <div className={style.form}>
-          <button type="submit">Create Videogame</button>
-        </div>
+          <button type="submit"> Create Videogame </button>
       </form>
     </div>
   );
