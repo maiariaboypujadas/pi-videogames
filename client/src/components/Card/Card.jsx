@@ -12,7 +12,7 @@ return (
      <img src={image} alt={name} onClick={navigateHandler} />
       <h2>{name}</h2>
       <h3>{typeof genres[0] === "object" ? genres.map((elem) => elem.name + " ") : genres.map((elem) => elem + " ")}</h3>
-      <h3>{rating}</h3>
+     
 
     </div>
 )

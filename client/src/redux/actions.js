@@ -53,20 +53,21 @@ export const getVideogames = () => {
     export const getVideogamesDetail = (id) => {
         return async (dispatch) => {
         try {
-                const response = await axios.get(`http://localhost:3001/videogames/${id}`)
-                //console.log(response)
+            const url = `http://localhost:3001/videogames/${id}`;
+                const response = await axios.get(url);
+                //console.log(response);
                 return dispatch ({
                     type: GET_VIDEOGAMES_DETAIL,
                     payload: response.data,
                 })
-        } catch (error) {
+            } catch (error) {
             console.log(error);
     }}};
         
     export function cleanDetail(){
         return {
             type: CLEAN_DETAIL_STATE,
-            payload: []
+            payload: {}
         }
     }
         

@@ -16,7 +16,7 @@ let initialState = {
 videogames: [],
 allVideogames: [], // copia de videojuegos
 detail: {},
-genres: [],
+genres: {},
 filteredVideogames: [],
 platforms: []
 };
@@ -33,7 +33,6 @@ export default function rootReducer(state = initialState, action) {
         });
         return index;
       }, []);
-
         return {
             ...state, 
             videogames: action.payload,
@@ -41,12 +40,13 @@ export default function rootReducer(state = initialState, action) {
             platforms
         }
      case GET_VIDEOGAMES_DETAIL:
-      //console.log(action.payload);
+      console.log(action.payload);
       return {
         ...state,
         detail: action.payload
       }
-      case CLEAN_DETAIL_STATE :
+      case CLEAN_DETAIL_STATE:
+        console.log(action.payload);
         return {
           ...state,
           detail: action.payload 

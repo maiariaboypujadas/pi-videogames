@@ -5,11 +5,14 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import Pagination from '../../components/Paginado/Paginado';
 
 
+
 function Home() {
   const dispatch = useDispatch();
+ 
   useEffect(() => {
     dispatch(getVideogames());
     dispatch(getGenres())
+   
   }, [dispatch]);
 //----------------
  

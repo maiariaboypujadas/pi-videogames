@@ -46,17 +46,17 @@ function handleSortName (event) {
   setCurrentPage(1)
   setSelectedPage(1)
 }
-function handleSortRating (event) {
-  event.preventDefault();
-  dispatch(orderByRating(event.target.value))
-  setCurrentPage(1)
-  setSelectedPage(1)
-}
 function handleFilter(e) {
   dispatch(filterByGenres(e.target.value))
   setCurrentPage(1)
   setSelectedPage(1)
-
+}
+function handleSortRating (event) {
+  event.preventDefault();
+  dispatch(orderByRating(event.target.value))
+  dispatch(handleFilter(event.target.value))
+  setCurrentPage(1)
+  setSelectedPage(1)
 }
 
 
@@ -64,8 +64,8 @@ function handleFilterByOrigin (event) {
   dispatch(filterGameByOrigin(event.target.value))
   setCurrentPage(1)
   setSelectedPage(1)
-
 }
+
 function handleReset () {
     dispatch(resetVideogames());
     dispatch(getVideogames());
