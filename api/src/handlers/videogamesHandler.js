@@ -3,7 +3,6 @@ const axios = require("axios");
 const { API_KEY } = process.env; 
 const {Videogame, Genre} = require('../db');
 const {getVideogamesApi, getVideogamesDB, searchID, createGame, searchNameDB} = require ('../controllers/gamesController');
-//const { where } = require("sequelize");
 const { searchGenre } = require("../controllers/genreController");
 
 const getVideogamesHandler = async (req, res) => {
@@ -23,10 +22,10 @@ const getVideogamesHandler = async (req, res) => {
   }
 };
 
-// FUNCIONA BIEN NO TOCAR 
+// 
      const getID = async (req, res) => {
        const {id} = req.params;
-       const source = isNaN(id) ? 'BD' : 'API';
+       const source = isNaN(id) ? 'BD' : 'API'; 
        try {
      const game = await searchID(id, source);
      res.status(200).json(game);
@@ -35,7 +34,7 @@ const getVideogamesHandler = async (req, res) => {
        }
      }
      // -------------------
-//----FUNCIONA BIEN!!! -----
+//---------
 
 const postGame = async (req, res) => {
   const {name, description, image, released, rating, platforms, genres} = req.body;
@@ -50,7 +49,7 @@ res.status(201).json({newGame, message: 'Videogame created successfully'})
 res.status(400).json({error: error.message})
   }
 }
- //FUNCIONA OK, ES PARA TRAER LOS GENEROS
+ 
 const getGenre = async (req, res) => {
   try {
     const genre = await searchGenre();

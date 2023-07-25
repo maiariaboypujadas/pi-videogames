@@ -27,5 +27,3 @@ const searchGenre = async () => {
 };
 
 module.exports = { searchGenre };
-
-module.exports = {searchGenre}

@@ -18,12 +18,12 @@ const getVideogamesApi = async (req, res) => {
        return {
          id: game.id,
          name: game.name,
-         description: game.description_raw,
+         description: game.description,
          image: game.background_image,
          released: game.released,
          rating: game.rating,
          platforms: game.platforms.map((platform) => platform.platform.name),
-         genres: game.genres.map((genre) => genre.name),
+        genres: game.genres.map((genre) => genre.name),
        };
      })
    games.push(...results);
@@ -132,9 +132,7 @@ const searchID = async (id, source) => {
               description: game.data.description_raw,
               image: game.data.background_image,
               released: game.data.released,
-              genres: game.data.genres.map((gen) => {
-                return { id: gen.id, name: gen.name };
-              }),
+              genres: game.data.genres.map((gen) => gen.name ),
               rating: game.data.rating,
               platforms: game.data.platforms.map((el) => el.platform.name),
             };
