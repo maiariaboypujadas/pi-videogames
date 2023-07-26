@@ -15,8 +15,8 @@ POST_VIDEOGAMES
 let initialState = {
 videogames: [],
 allVideogames: [], // copia de videojuegos
-detail: {},
-genres: {},
+detail: [],
+genres: [],
 filteredVideogames: [],
 platforms: []
 };

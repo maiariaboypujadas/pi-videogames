@@ -54,7 +54,6 @@ function handleFilter(e) {
 function handleSortRating (event) {
   event.preventDefault();
   dispatch(orderByRating(event.target.value))
-  dispatch(handleFilter(event.target.value))
   setCurrentPage(1)
   setSelectedPage(1)
 }
@@ -77,12 +76,12 @@ function handleReset () {
         
         <div className={style.Pagination}>
           <div className={style.container}>
-          <select className={style.container} placeholder="Order" onChange={handleSortName}>
+          <select className={style.container} placeholder="Order" onChange={(event)=>handleSortName(event)}>
   <option className={style.selected} value="">Order by</option>
   <option key="Ascendente" value="Ascendente">A-Z</option>
   <option key="Descendente" value="Descendente">Z-A</option>
   </select>
-  <select className={style.container} placeholder="Order" onChange={handleSortRating}>
+  <select className={style.container} placeholder="Order" onChange={(event)=>handleSortRating(event)}>
   <option value="">Order by</option>
   <option  value="Ascendente">High Rating</option>
   <option  value="Descendente">Low Rating</option>

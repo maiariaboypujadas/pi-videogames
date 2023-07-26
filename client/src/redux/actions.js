@@ -27,13 +27,14 @@ export const getVideogames = () => {
         return async (dispatch) => {
         try {
                 const response = await axios.get(`http://localhost:3001/videogames/?name=${name}`)
+                console.log(response)
                 return dispatch ({
                     type: GET_VIDEOGAMES_BY_NAME,
                     payload: response.data
                 });
             } catch (error) {
-            alert("Videogame Not Found")
-            console.log(error);
+               window.alert("Videogame Not Found")
+                console.log(error);
     }}};
     
     export const getGenres = () => {

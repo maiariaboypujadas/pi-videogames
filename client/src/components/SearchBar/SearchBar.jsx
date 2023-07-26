@@ -4,6 +4,7 @@ import { getVideogamesByName} from "../../redux/actions";
 import { Link } from "react-router-dom";
 import {resetVideogames, getVideogames} from "../../redux/actions";
 
+
 export default function SearchBar() {
   const dispatch = useDispatch();
   
@@ -16,12 +17,13 @@ export default function SearchBar() {
   const handleSubmit = (event) => {
     event.preventDefault();
       dispatch(getVideogamesByName(name));
-    
   };
+
   function handleReset () {
     dispatch(resetVideogames());
     dispatch(getVideogames());
 }
+
   return (
     <div className="#buscador">
       <form className="search-container" >
