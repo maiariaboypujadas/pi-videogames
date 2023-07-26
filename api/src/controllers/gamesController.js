@@ -46,75 +46,55 @@ const getVideogamesDB = async () => {
    } catch (error) {
       res.status(500).send('Error DataBase', error);
    }}
-
-const searchName = async (name) => {
-   let game = [];
-   try {
-      const response = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=7ec4d410b20b453189a41dce23b83c6b`);
-     const results = response.data.results;
- 
-     results.forEach((games) => {
-       const gameObj = {
-         id: games.id,
-         name: games.name,
-         description: games.description_raw,
-         image: games.background_image,
-         released: games.released,
-         rating: games.rating,
-         platforms: games.platforms.map((platform) => platform.platform.name),
-         genres: games.genres.map((genre) => genre.name),
-       };
-       if (gameObj.name.toLowerCase().includes(name.toLowerCase()))
-       {
-          game.push(gameObj);
-
-       } 
-     });
-   } catch (error) {
-     res.status(500).send('Videogame not found:', error);
-   }
- 
-   return game.slice(0, 15);
- };
- // --------- BUSCAR POR NOMBRE BASE DE DATOS ----------------
- const searchNameDB = async (name) => {
-  let game = [];
-  let dbGames = await Videogame.findAll({
-    where: { name: { [Op.iLike]: `%${name}%` } },
-    include: {
-      model: Genre,
-      attributes: ["name"],
-      through: { attributes: [] },
-    },
-  });
-
-  if (dbGames.length === 0) {
-    dbGames = [];
-  }
-
-  dbGames.forEach((games) => {
-    const gameSearch = {
-      id: games.id,
-      name: games.name,
-      description: games.description,
-      image: games.image,
-      released: games.released,
-      rating: games.rating,
-      platforms: games.platforms.map((platform) => platform.name),
-      genres: games.genres.map((genre) => genre.name),
-    };
-    if (gameSearch.name.toLowerCase().includes(name.toLowerCase())) {
-      game.push(gameSearch);
-    }
-  });
-
-  if (dbGames.length === 0) {
-    game = await searchName(name);
-  }
-
-  return game.slice(0, 15);
-}
-
+   //--------------------
+   const searchByName = async (name) => {
+    let results = [];
+  
+    // Buscar en la base de datos
+    try {
+      const dbResults = await Videogame.findAll({
+        where: { name: { [Op.iLike]: `%${name}%` } },
+        include: {
+          model: Genre,
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
+      });
+  
+      dbGames = dbResults.map((game) => ({
+        id: game.id,
+        name: game.name,
+        description: game.description,
+        image: game.image,
+        released: game.released,
+        rating: game.rating,
+        platforms: game.platforms,
+        genres: game.genres,
+      }));
+   
+  
+    // Buscar en la API 
+    
+        const apiResponse = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=7ec4d410b20b453189a41dce23b83c6b`);
+        const apiData = apiResponse.data;
+        const apiResults = apiData.results.map((game) => ({
+          id: game.id,
+          name: game.name,
+          description: game.description_raw,
+          image: game.background_image,
+          released: game.released,
+          rating: game.rating,
+          platforms: game.platforms.map((platform) => platform.platform.name),
+          genres: game.genres.map((genre) => genre.name),
+        }));
+  
+        results = [...dbResults, ...apiResults]
+      } catch (error) {
+        console.error("Error searching in API:", error);
+      }
+  
+    return results.slice(0, 15);
+  };
 // -----------------BUSCAR POR ID --------------------------------
 const searchID = async (id, source) => {
    try {
@@ -158,7 +138,7 @@ const createGame = async (name, description, image, released, rating, platforms,
 };
 
 
-   module.exports = { getVideogamesApi, searchID, createGame, getVideogamesDB, searchNameDB}; 
+   module.exports = { getVideogamesApi, searchID, createGame, getVideogamesDB, searchByName}; 
 
 
  

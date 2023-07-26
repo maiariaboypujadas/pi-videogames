@@ -2,7 +2,7 @@ const { Router } = require("express");
 const axios = require("axios");
 const { API_KEY } = process.env; 
 const {Videogame, Genre} = require('../db');
-const {getVideogamesApi, getVideogamesDB, searchID, createGame, searchNameDB} = require ('../controllers/gamesController');
+const {getVideogamesApi, getVideogamesDB, searchID, createGame, searchByName} = require ('../controllers/gamesController');
 const { searchGenre } = require("../controllers/genreController");
 
 const getVideogamesHandler = async (req, res) => {
@@ -12,7 +12,7 @@ const getVideogamesHandler = async (req, res) => {
     const infoDB = await getVideogamesDB();
     const videogames = infoDB.length > 0 && infoApi.length > 0 ? [...infoDB, ...infoApi] : infoApi;
     if (name) {
-      const filteredVideogames = await searchNameDB(name);
+      const filteredVideogames = await searchByName(name);
       res.status(200).json(filteredVideogames);
     } else {
       res.status(200).json(videogames);
