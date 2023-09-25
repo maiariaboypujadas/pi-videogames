@@ -1,18 +1,13 @@
 
 const axios = require ('axios');
-require ("dotenv").config();
-//const {API_KEY} = process.env;
-const { Videogame, Genre } = require('../db'); // Importa los modelos de la base de datos
+const { Videogame, Genre } = require('../db'); 
 const { Op } = require('sequelize');
 
 
-
-
-// ------- GET | /videogames-----------
 const getVideogamesApi = async (req, res) => {
    try {
       let games = [];
-      for (let i=0; i < 5; i++){ // traigo 100 juegos
+      for (let i=0; i < 5; i++){ 
      const response = await axios.get('https://api.rawg.io/api/games?key=7ec4d410b20b453189a41dce23b83c6b');
      const results = response.data.results.map((game) => {
        return {
@@ -46,11 +41,9 @@ const getVideogamesDB = async () => {
    } catch (error) {
       res.status(500).send('Error DataBase', error);
    }}
-   //--------------------
+  
    const searchByName = async (name) => {
     let results = [];
-  
-    // Buscar en la base de datos
     try {
       const dbResults = await Videogame.findAll({
         where: { name: { [Op.iLike]: `%${name}%` } },
@@ -72,9 +65,6 @@ const getVideogamesDB = async () => {
         genres: game.genres,
       }));
    
-  
-    // Buscar en la API 
-    
         const apiResponse = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=7ec4d410b20b453189a41dce23b83c6b`);
         const apiData = apiResponse.data;
         const apiResults = apiData.results.map((game) => ({
@@ -95,7 +85,8 @@ const getVideogamesDB = async () => {
   
     return results.slice(0, 15);
   };
-// -----------------BUSCAR POR ID --------------------------------
+
+
 const searchID = async (id, source) => {
    try {
    const game = 
@@ -125,7 +116,7 @@ const searchID = async (id, source) => {
           throw new Error('Could not search for the game');
          }}
 
-// ------------ PARA CREAR POST -----------------
+
 const createGame = async (name, description, image, released, rating, platforms, genres) => {
   console.log(genres);
   try {

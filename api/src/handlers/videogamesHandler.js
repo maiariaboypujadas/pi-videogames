@@ -21,8 +21,7 @@ const getVideogamesHandler = async (req, res) => {
     res.status(500).json({error: error.message });
   }
 };
-
-// 
+ 
      const getID = async (req, res) => {
        const {id} = req.params;
        const source = isNaN(id) ? 'BD' : 'API'; 
@@ -33,8 +32,7 @@ const getVideogamesHandler = async (req, res) => {
          res.status(400).json({error: error.message})
        }
      }
-     // -------------------
-//---------
+
 
 const postGame = async (req, res) => {
   const {name, description, image, released, rating, platforms, genres} = req.body;
