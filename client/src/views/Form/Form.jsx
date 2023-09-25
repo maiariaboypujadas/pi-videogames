@@ -44,7 +44,7 @@ function validate(form) {
 
 function Form() {
   const dispatch = useDispatch();
-  const genres = useSelector((state) => state.genres); // reducer
+  const genres = useSelector((state) => state.genres); 
   const platforms = useSelector((state) => state.platforms);
   
   const [form, setForm] = useState({
@@ -84,12 +84,12 @@ function Form() {
     if(!form.genres.includes(event.target.value)){
     setForm({
       ...form,
-      genres: [...form.genres, event.target.value], // devuelve el genero agregado
+      genres: [...form.genres, event.target.value], 
     });
     setError(
       validate({
         ...form,
-        [event.target.name]: event.target.value, //actualiza name de form
+        [event.target.name]: event.target.value, 
       })
     );
   }}
@@ -112,7 +112,7 @@ function Form() {
     const newGenres = [...form.genres];
     newGenres.splice(index, 1);
     setForm({ ...form, genres: newGenres });
-    setError(validate({ ...form, genres: newGenres })); //si elimino todo tiene que validar que no sea 0
+    setError(validate({ ...form, genres: newGenres })); 
   }
 
   function handleRemovePlatform(index) {
@@ -125,11 +125,10 @@ function Form() {
   function submitHandler(event) {
     event.preventDefault();
     const errors = validate(form);
-    if (Object.keys(errors).length > 0) { //array con los errores
+    if (Object.keys(errors).length > 0) { 
       setError(errors);
       alert("Could not create the game")
     } else {
-      // si no hay errores
       dispatch(postVideogames(form));
       alert("The game was created successfully");
       setForm({

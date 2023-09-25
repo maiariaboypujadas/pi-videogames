@@ -24,7 +24,7 @@ const Pagination = () => {
   const generatePageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(videogames.length / itemsPerPage); i++) {
-    pageNumbers.push({number:i, selected: i === selectedPage}); //pagina donde estoy
+    pageNumbers.push({number:i, selected: i === selectedPage}); 
   }
   return pageNumbers;
 };

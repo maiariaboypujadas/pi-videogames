@@ -14,7 +14,7 @@ POST_VIDEOGAMES
 
 let initialState = {
 videogames: [],
-allVideogames: [], // copia de videojuegos
+allVideogames: [], 
 detail: [],
 genres: [],
 filteredVideogames: [],
@@ -53,13 +53,11 @@ export default function rootReducer(state = initialState, action) {
 
         }
        case GET_VIDEOGAMES_BY_NAME:
-        //console.log(action.payload)
         return {
           ...state,
           videogames: action.payload
         } 
         case GET_GENRES: 
-        //console.log(action.payload);
         return {
           ...state,
          genres: action.payload,

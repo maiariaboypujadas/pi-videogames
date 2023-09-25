@@ -5,14 +5,13 @@ import { getGenres } from "../../redux/actions";
 import style from '../NavBar/NavBar.module.css';
 function NavBar () { 
     const dispatch = useDispatch();
-    
     useEffect(() => {
       dispatch(getGenres());
     }, [dispatch]);
     return (
         <div className={style.container}>
             <Link to="/home">HOME</Link>
-            <Link to="/create">FORM</Link>
+            <Link to="/create">CREATE</Link>
         </div>
     )
 }
